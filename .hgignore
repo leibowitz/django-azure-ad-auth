@@ -1,0 +1,21 @@
+# use glob syntax.
+syntax: glob
+
+*.pyc
+*.swp
+*.orig
+*.DS_Store
+Thumbs.db
+*.log
+*.cache
+*.egg-info
+*.svn
+
+syntax: regexp
+
+^.idea/
+^.git/
+^build/
+^dist/
+^.tox/
+^env/
