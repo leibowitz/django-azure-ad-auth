@@ -1,6 +1,7 @@
 from .backends import AzureActiveDirectoryBackend
 from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME, login
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
@@ -11,11 +12,12 @@ import uuid
 @never_cache
 def auth(request):
     backend = AzureActiveDirectoryBackend()
+    redirect_uri = request.build_absolute_uri(reverse(complete))
     nonce = str(uuid.uuid4())
     request.session['nonce'] = nonce
     state = str(uuid.uuid4())
     request.session['state'] = state
-    return HttpResponseRedirect(backend.auth_url(nonce, state))
+    return HttpResponseRedirect(backend.login_url(redirect_uri, nonce, state))
 
 
 @never_cache

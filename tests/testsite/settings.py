@@ -110,5 +110,6 @@ AUTHENTICATION_BACKENDS = (
 
 LOGIN_REDIRECT_URL = '/login_successful/'
 
-AAD_CLIENT_ID = '75e38b53-8174-4dc6-a8f6-bb7a913f1565'
-AAD_FEDERATION_METADATA_DOCUMENT = 'https://login.microsoftonline.com/d472b4f4-95c5-4eb3-8a9a-3615c837eada/federationmetadata/2007-06/federationmetadata.xml'
+AAD_TENANT_ID = 'd472b4f4-95c5-4eb3-8a9a-3615c837eada'
+# AAD_CLIENT_ID = '75e38b53-8174-4dc6-a8f6-bb7a913f1565'
+AAD_CLIENT_ID = '1cab17b2-2387-4730-b64d-d92943a134aa'
