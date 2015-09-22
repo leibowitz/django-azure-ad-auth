@@ -36,7 +36,7 @@ def get_logout_url(redirect_uri):
     params = urlencode({
         'post_logout_redirect_uri': redirect_uri,
     })
-    return '{authoriy}/common/oauth2/logout?{params'.format(
+    return '{authoriy}/common/oauth2/logout?{params}'.format(
         authoriy=AUTHORITY,
         params=params,
     )

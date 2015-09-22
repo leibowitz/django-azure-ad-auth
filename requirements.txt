@@ -1,4 +1,4 @@
-Django>=1.2
+Django>=1.4
 PyJWT>=1.1.0
 cryptography>=0.9
 lxml>=3.0.0

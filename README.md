@@ -20,16 +20,19 @@ AUTHENTICATION_BACKENDS = (
 Settings
 --------
 
+###AAD_TENANT_ID
+
+The Azure Tenant ID. It can be found in the URL of the Azure Management Portal.
+
 ###AAD_CLIENT_ID
+
 The Azure Application Client ID.
 
-###AAD_FEDERATION_METADATA_DOCUMENT
-The URL of the Federation Metadata Document. Usually of the form `https://login.microsoftonline.com/[azure_id]/federationmetadata/2007-06/federationmetadata.xml`. It contains the certificate with a public key to verify the JWT signature.
 
-###AAD_AUTHORIZATION_ENDPOINT
+###AAD_AUTHORITY
 
-**default:** `'https://login.microsoftonline.com/common/oauth2/authorize'`
-The OAuth endpoint to redirect users to.
+**default:** `'https://login.microsoftonline.com'`
+The domain that is used for authorization, the federation metadata document, and loggin out.
 
 ###AAD_SCOPE
 
