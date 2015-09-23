@@ -29,18 +29,22 @@ class AzureActiveDirectoryBackend(object):
         return get_logout_url(redirect_uri)
 
     def authenticate(self, token=None, nonce=None, **kwargs):
+        if token is None:
+            return None
+
         email = get_email_from_token(token, nonce)
+
         if email is None:
-            user = None
+            return None
+
+        users = self.User.objects.filter(email=email)
+        if len(users) == 0:
+            user = self.create_user(email)
+        elif len(users) == 1:
+            user = users[0]
         else:
-            users = self.User.objects.filter(email=email)
-            if len(users) == 0:
-                user = self.create_user(email)
-            elif len(users) == 1:
-                user = users[0]
-            else:
-                return None
-            user.backend = '{}.{}'.format(self.__class__.__module__, self.__class__.__name__)
+            return None
+        user.backend = '{}.{}'.format(self.__class__.__module__, self.__class__.__name__)
         return user
 
     def get_user(self, user_id):

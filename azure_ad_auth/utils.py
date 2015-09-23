@@ -61,6 +61,7 @@ def get_public_keys():
         response = requests.get(federation_metadata_document_url)
         if not response.ok:
             raise
+        response.encoding = response.apparent_encoding
         x509_DER_list = parse_x509_DER_list(response.text)
         keys = [load_der_x509_certificate(x509_DER, default_backend()).public_key() for x509_DER in x509_DER_list]
     except:
