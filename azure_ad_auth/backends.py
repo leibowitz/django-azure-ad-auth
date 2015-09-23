@@ -23,16 +23,20 @@ class AzureActiveDirectoryBackend(object):
         self.User = get_user_model()
 
     def login_url(self, redirect_uri, nonce, state):
-        return get_login_url(redirect_uri, nonce, state)
+        return get_login_url(
+            redirect_uri=redirect_uri,
+            nonce=nonce,
+            state=state
+        )
 
     def logout_url(redirect_uri):
-        return get_logout_url(redirect_uri)
+        return get_logout_url(redirect_uri=redirect_uri)
 
     def authenticate(self, token=None, nonce=None, **kwargs):
         if token is None:
             return None
 
-        email = get_email_from_token(token, nonce)
+        email = get_email_from_token(token=token, nonce=nonce)
 
         if email is None:
             return None

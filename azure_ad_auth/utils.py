@@ -16,35 +16,39 @@ TENANT_ID = getattr(settings, 'AAD_TENANT_ID')
 CLIENT_ID = getattr(settings, 'AAD_CLIENT_ID')
 
 
-def get_login_url(redirect_uri, nonce, state):
-    params = urlencode({
-        'response_type': RESPONSE_TYPE,
-        'response_mode': RESPONSE_MODE,
-        'scope': SCOPE,
-        'client_id': CLIENT_ID,
-        'redirect_uri': redirect_uri,
-        'nonce': nonce,
-        'state': state,
-    })
+def get_login_url(authority=AUTHORITY, response_type=RESPONSE_TYPE, response_mode=RESPONSE_MODE, scope=SCOPE, client_id=CLIENT_ID, redirect_uri=None, nonce=None, state=None):
+    param_dict = {
+        'response_type': response_type,
+        'response_mode': response_mode,
+        'scope': scope,
+        'client_id': client_id,
+    }
+    if redirect_uri is not None:
+        param_dict['redirect_uri'] = redirect_uri
+    if nonce is not None:
+        param_dict['nonce'] = nonce
+    if state is None:
+        param_dict['state'] = state
+    params = urlencode(param_dict)
     return '{authoriy}/common/oauth2/authorize?{params}'.format(
-        authoriy=AUTHORITY,
+        authoriy=authoriy,
         params=params,
     )
 
 
-def get_logout_url(redirect_uri):
+def get_logout_url(redirect_uri, authoriy=AUTHORITY):
     params = urlencode({
         'post_logout_redirect_uri': redirect_uri,
     })
     return '{authoriy}/common/oauth2/logout?{params}'.format(
-        authoriy=AUTHORITY,
+        authoriy=authoriy,
         params=params,
     )
 
-def get_federation_metadata_document_url():
+def get_federation_metadata_document_url(authoriy=AUTHORITY, tenant_id=TENANT_ID):
     return '{authoriy}/{tenant_id}/federationmetadata/2007-06/federationmetadata.xml'.format(
-        authoriy=AUTHORITY,
-        tenant_id=TENANT_ID,
+        authoriy=authoriy,
+        tenant_id=tenant_id,
     )
 
 
@@ -62,17 +66,17 @@ def get_public_keys():
         if not response.ok:
             raise
         response.encoding = response.apparent_encoding
-        x509_DER_list = parse_x509_DER_list(response.text)
+        x509_DER_list = parse_x509_DER_list(response.text.encode('utf-8'))
         keys = [load_der_x509_certificate(x509_DER, default_backend()).public_key() for x509_DER in x509_DER_list]
     except:
         keys = []
     return keys
 
 
-def get_email_from_token(token=None, nonce=None):
+def get_email_from_token(token=None, audience=CLIENT_ID, nonce=None):
     for key in get_public_keys():
         try:
-            payload = jwt.decode(token, key=key, audience=CLIENT_ID)
+            payload = jwt.decode(token, key=key, audience=audience)
 
             if payload['nonce'] != nonce:
                 continue

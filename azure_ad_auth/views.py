@@ -17,7 +17,12 @@ def auth(request):
     request.session['nonce'] = nonce
     state = str(uuid.uuid4())
     request.session['state'] = state
-    return HttpResponseRedirect(backend.login_url(redirect_uri, nonce, state))
+    login_url = backend.login_url(
+        redirect_uri=redirect_uri,
+        nonce=nonce,
+        state=state
+    )
+    return HttpResponseRedirect(login_url)
 
 
 @never_cache
