@@ -65,3 +65,9 @@ Map fields from the token to the user, to be used on creation.
 **default:** `{}`
 
 Map static values to user fields on creation.
+
+### AAD_GROUP_MAPPING
+
+**default:** `{}`
+
+Map group ids to group names for user permissions.

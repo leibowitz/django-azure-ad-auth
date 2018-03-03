@@ -15,6 +15,7 @@ class AzureActiveDirectoryBackend(object):
     USER_CREATION = getattr(settings, 'AAD_USER_CREATION', True)
     USER_MAPPING = getattr(settings, 'AAD_USER_MAPPING', {})
     USER_STATIC_MAPPING = getattr(settings, 'AAD_USER_STATIC_MAPPING', {})
+    GROUP_MAPPING = getattr(settings, 'AAD_GROUP_MAPPING', {})
     RESPONSE_MODE = RESPONSE_MODE
 
     supports_anonymous_user = False
