@@ -30,24 +30,24 @@ def get_login_url(authority=AUTHORITY, response_type=RESPONSE_TYPE, response_mod
     if state is None:
         param_dict['state'] = state
     params = urlencode(param_dict)
-    return '{authoriy}/common/oauth2/authorize?{params}'.format(
-        authoriy=authoriy,
+    return '{authority}/common/oauth2/authorize?{params}'.format(
+        authority=authority,
         params=params,
     )
 
 
-def get_logout_url(redirect_uri, authoriy=AUTHORITY):
+def get_logout_url(redirect_uri, authority=AUTHORITY):
     params = urlencode({
         'post_logout_redirect_uri': redirect_uri,
     })
-    return '{authoriy}/common/oauth2/logout?{params}'.format(
-        authoriy=authoriy,
+    return '{authority}/common/oauth2/logout?{params}'.format(
+        authority=authority,
         params=params,
     )
 
-def get_federation_metadata_document_url(authoriy=AUTHORITY, tenant_id=TENANT_ID):
-    return '{authoriy}/{tenant_id}/federationmetadata/2007-06/federationmetadata.xml'.format(
-        authoriy=authoriy,
+def get_federation_metadata_document_url(authority=AUTHORITY, tenant_id=TENANT_ID):
+    return '{authority}/{tenant_id}/federationmetadata/2007-06/federationmetadata.xml'.format(
+        authority=authority,
         tenant_id=tenant_id,
     )
 
