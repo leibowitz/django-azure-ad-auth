@@ -11,7 +11,7 @@ try:
     from urllib.parse import urlparse
 except ImportError:
     # Python 2
-    import urlparse
+    from urlparse import urlparse
 
 
 @never_cache
@@ -49,7 +49,7 @@ def complete(request):
 
 def get_login_success_url(request):
     redirect_to = request.GET.get(REDIRECT_FIELD_NAME, '')
-    netloc = urlparse.urlparse(redirect_to)[1]
+    netloc = urlparse(redirect_to)[1]
     if not redirect_to:
         redirect_to = settings.LOGIN_REDIRECT_URL
     elif netloc and netloc != request.get_host():
