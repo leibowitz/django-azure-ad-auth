@@ -59,3 +59,9 @@ Allow creation of new users after successful authentication.
 **default:** `{}`
 
 Map fields from the token to the user, to be used on creation.
+
+### AAD_USER_STATIC_MAPPING
+
+**default:** `{}`
+
+Map static values to user fields on creation.

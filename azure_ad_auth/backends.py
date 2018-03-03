@@ -14,6 +14,7 @@ from hashlib import sha1
 class AzureActiveDirectoryBackend(object):
     USER_CREATION = getattr(settings, 'AAD_USER_CREATION', True)
     USER_MAPPING = getattr(settings, 'AAD_USER_MAPPING', {})
+    USER_STATIC_MAPPING = getattr(settings, 'AAD_USER_STATIC_MAPPING', {})
     RESPONSE_MODE = RESPONSE_MODE
 
     supports_anonymous_user = False
@@ -71,6 +72,8 @@ class AzureActiveDirectoryBackend(object):
                 if token_field not in payload:
                     continue
                 user_kwargs[field] = payload[token_field]
+            for user_field, val in self.USER_STATIC_MAPPING:
+                user_kwargs[field] = val
             return self.User.objects.create_user(**user_kwargs)
         else:
             return None
