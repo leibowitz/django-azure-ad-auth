@@ -47,7 +47,7 @@ class AzureActiveDirectoryBackend(object):
 
         users = self.User.objects.filter(email=email)
         if len(users) == 0:
-            user = self.create_user(new_user)
+            user = self.create_user(new_user, payload)
         elif len(users) == 1:
             user = users[0]
         else:
@@ -62,11 +62,15 @@ class AzureActiveDirectoryBackend(object):
         except self.User.DoesNotExist:
             return None
 
-    def create_user(self, user_kwargs):
+    def create_user(self, user_kwargs, payload):
         if self.USER_CREATION:
             username_field = getattr(self.User, 'USERNAME_FIELD', 'username')
             if username_field and username_field != 'email':
                 user_kwargs[username_field] = self.username_generator(email)
+            for user_field, token_field in self.USER_MAPPING:
+                if token_field not in payload:
+                    continue
+                user_kwargs[field] = payload[token_field]
             return self.User.objects.create_user(**user_kwargs)
         else:
             return None
