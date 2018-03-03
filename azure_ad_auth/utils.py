@@ -90,3 +90,7 @@ def get_token_payload(token=None, audience=CLIENT_ID, nonce=None):
             pass
 
     return None
+
+
+def get_token_payload_email(payload, field_name = 'upn', def_value = None):
+    return payload[field_name] if field_name in payload else def_value

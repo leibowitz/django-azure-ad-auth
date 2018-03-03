@@ -37,7 +37,7 @@ class AzureActiveDirectoryBackend(object):
             return None
 
         payload = get_token_payload(token=token, nonce=nonce)
-        email = payload['upn'] if 'upn' in payload else None
+        email = get_token_payload_email(payload)
 
         if email is None:
             return None
