@@ -27,7 +27,7 @@ def get_login_url(authority=AUTHORITY, response_type=RESPONSE_TYPE, response_mod
         param_dict['redirect_uri'] = redirect_uri
     if nonce is not None:
         param_dict['nonce'] = nonce
-    if state is None:
+    if state is not None:
         param_dict['state'] = state
     params = urlencode(param_dict)
     return '{authority}/common/oauth2/authorize?{params}'.format(
