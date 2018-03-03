@@ -71,9 +71,9 @@ class AzureActiveDirectoryBackend(object):
             for user_field, token_field in self.USER_MAPPING.items():
                 if token_field not in payload:
                     continue
-                user_kwargs[field] = payload[token_field]
+                user_kwargs[user_field] = payload[token_field]
             for user_field, val in self.USER_STATIC_MAPPING.items():
-                user_kwargs[field] = val
+                user_kwargs[user_field] = val
             return self.User.objects.create_user(**user_kwargs)
         else:
             return None
