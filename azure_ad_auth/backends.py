@@ -1,6 +1,8 @@
 from .utils import get_token_payload, get_token_payload_email, get_login_url, get_logout_url, RESPONSE_MODE
 from base64 import urlsafe_b64encode
 from django.conf import settings
+from django.contrib.auth.models import Group
+from django.core.exceptions import ObjectDoesNotExist
 try:
     from django.contrib.auth import get_user_model
 except ImportError:
@@ -15,6 +17,7 @@ class AzureActiveDirectoryBackend(object):
     USER_CREATION = getattr(settings, 'AAD_USER_CREATION', True)
     USER_MAPPING = getattr(settings, 'AAD_USER_MAPPING', {})
     USER_STATIC_MAPPING = getattr(settings, 'AAD_USER_STATIC_MAPPING', {})
+    GROUP_MAPPING = getattr(settings, 'AAD_GROUP_MAPPING', {})
     RESPONSE_MODE = RESPONSE_MODE
 
     supports_anonymous_user = False
@@ -49,6 +52,17 @@ class AzureActiveDirectoryBackend(object):
         users = self.User.objects.filter(email=email)
         if len(users) == 0:
             user = self.create_user(new_user, payload)
+            # Try mapping group claims to matching groups
+            if user is not None and 'groups' in payload:
+                for groupid in payload['groups']:
+                    if groupid not in self.GROUP_MAPPING:
+                        continue
+                    group_name = self.GROUP_MAPPING[groupid]
+                    try:
+                        group = Group.objects.get(name=group_name)
+                        user.groups.add(group)
+                    except ObjectDoesNotExist:
+                        pass
         elif len(users) == 1:
             user = users[0]
         else:
