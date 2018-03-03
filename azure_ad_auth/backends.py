@@ -1,4 +1,4 @@
-from .utils import get_email_from_token, get_login_url, get_logout_url, RESPONSE_MODE
+from .utils import get_token_payload, get_login_url, get_logout_url, RESPONSE_MODE
 from base64 import urlsafe_b64encode
 from django.conf import settings
 try:
@@ -36,7 +36,8 @@ class AzureActiveDirectoryBackend(object):
         if token is None:
             return None
 
-        email = get_email_from_token(token=token, nonce=nonce)
+        payload = get_token_payload(token=token, nonce=nonce)
+        email = payload['upn'] if 'upn' in payload else None
 
         if email is None:
             return None

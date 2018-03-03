@@ -77,7 +77,7 @@ def get_public_keys():
     return keys
 
 
-def get_email_from_token(token=None, audience=CLIENT_ID, nonce=None):
+def get_token_payload(token=None, audience=CLIENT_ID, nonce=None):
     for key in get_public_keys():
         try:
             payload = jwt.decode(token, key=key, audience=audience)
@@ -85,7 +85,7 @@ def get_email_from_token(token=None, audience=CLIENT_ID, nonce=None):
             if payload['nonce'] != nonce:
                 continue
 
-            return payload['upn']
+            return payload
         except (jwt.InvalidTokenError, IndexError) as e:
             pass
 
