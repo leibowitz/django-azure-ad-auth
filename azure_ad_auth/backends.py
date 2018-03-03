@@ -62,7 +62,8 @@ class AzureActiveDirectoryBackend(object):
         if self.USER_CREATION:
             username_field = getattr(self.User, 'USERNAME_FIELD', 'username')
             user_kwargs = {'email': email}
-            user_kwargs[username_field] = self.username_generator(email)
+            if username_field and username_field != 'email':
+                user_kwargs[username_field] = self.username_generator(email)
             return self.User.objects.create_user(**user_kwargs)
         else:
             return None
