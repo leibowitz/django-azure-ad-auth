@@ -52,19 +52,14 @@ class AzureActiveDirectoryBackend(object):
         users = self.User.objects.filter(email=email)
         if len(users) == 0:
             user = self.create_user(new_user, payload)
+
             # Try mapping group claims to matching groups
-            if user is not None and 'groups' in payload:
-                for groupid in payload['groups']:
-                    if groupid not in self.GROUP_MAPPING:
-                        continue
-                    group_name = self.GROUP_MAPPING[groupid]
-                    try:
-                        group = Group.objects.get(name=group_name)
-                        user.groups.add(group)
-                    except ObjectDoesNotExist:
-                        pass
+            self.add_user_to_group(user, payload)
         elif len(users) == 1:
             user = users[0]
+
+            # Try mapping group claims to matching groups
+            self.add_user_to_group(user, payload)
         else:
             return None
         user.backend = '{}.{}'.format(self.__class__.__module__, self.__class__.__name__)
@@ -76,6 +71,18 @@ class AzureActiveDirectoryBackend(object):
             return user
         except self.User.DoesNotExist:
             return None
+
+    def add_user_to_group(self, user, payload):
+        if user is not None and 'groups' in payload:
+            for groupid in payload['groups']:
+                if groupid not in self.GROUP_MAPPING:
+                    continue
+                group_name = self.GROUP_MAPPING[groupid]
+                try:
+                    group = Group.objects.get(name=group_name)
+                    user.groups.add(group)
+                except ObjectDoesNotExist:
+                    pass
 
     def create_user(self, user_kwargs, payload):
         if self.USER_CREATION:
