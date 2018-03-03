@@ -13,6 +13,7 @@ from hashlib import sha1
 
 class AzureActiveDirectoryBackend(object):
     USER_CREATION = getattr(settings, 'AAD_USER_CREATION', True)
+    USER_MAPPING = getattr(settings, 'AAD_USER_MAPPING', {})
     RESPONSE_MODE = RESPONSE_MODE
 
     supports_anonymous_user = False
