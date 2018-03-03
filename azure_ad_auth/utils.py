@@ -14,9 +14,11 @@ RESPONSE_TYPE = getattr(settings, 'AAD_RESPONSE_TYPE', 'id_token')
 RESPONSE_MODE = getattr(settings, 'AAD_RESPONSE_MODE', 'form_post')
 TENANT_ID = getattr(settings, 'AAD_TENANT_ID')
 CLIENT_ID = getattr(settings, 'AAD_CLIENT_ID')
+ALWAYS_AUTHENTICATE = getattr(settings, 'AAD_ALWAYS_AUTHENTICATE', True)
 
 
-def get_login_url(authority=AUTHORITY, response_type=RESPONSE_TYPE, response_mode=RESPONSE_MODE, scope=SCOPE, client_id=CLIENT_ID, redirect_uri=None, nonce=None, state=None):
+def get_login_url(authority=AUTHORITY, response_type=RESPONSE_TYPE, response_mode=RESPONSE_MODE, scope=SCOPE, client_id=CLIENT_ID, 
+    redirect_uri=None, nonce=None, state=None, always_authenticate=ALWAYS_AUTHENTICATE):
     param_dict = {
         'response_type': response_type,
         'response_mode': response_mode,
@@ -29,6 +31,8 @@ def get_login_url(authority=AUTHORITY, response_type=RESPONSE_TYPE, response_mod
         param_dict['nonce'] = nonce
     if state is not None:
         param_dict['state'] = state
+    if always_authenticate:
+        param_dict['prompt'] = 'login'
     params = urlencode(param_dict)
     return '{authority}/common/oauth2/authorize?{params}'.format(
         authority=authority,
