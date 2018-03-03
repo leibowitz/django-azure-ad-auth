@@ -1,4 +1,4 @@
-from .utils import get_token_payload, get_login_url, get_logout_url, RESPONSE_MODE
+from .utils import get_token_payload, get_token_payload_email, get_login_url, get_logout_url, RESPONSE_MODE
 from base64 import urlsafe_b64encode
 from django.conf import settings
 try:
