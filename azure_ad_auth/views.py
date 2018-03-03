@@ -5,8 +5,13 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
-import urlparse
 import uuid
+try:
+    # Python 3
+    from urllib.parse import urlparse
+except ImportError:
+    # Python 2
+    import urlparse
 
 
 @never_cache
