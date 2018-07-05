@@ -102,5 +102,5 @@ def get_token_payload_email(payload, field_name = 'upn'):
 
 
 def get_token_payload_field(payload, field_name, def_value = None):
-    return payload[field_name] if field_name in payload else def_value
+    return payload[field_name] if payload and field_name in payload else def_value
 
