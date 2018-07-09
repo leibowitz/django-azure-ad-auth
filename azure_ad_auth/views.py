@@ -5,8 +5,13 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
-import urlparse
 import uuid
+try:
+    # Python 3
+    from urllib.parse import urlparse
+except ImportError:
+    # Python 2
+    from urlparse import urlparse
 
 
 @never_cache
@@ -44,7 +49,7 @@ def complete(request):
 
 def get_login_success_url(request):
     redirect_to = request.GET.get(REDIRECT_FIELD_NAME, '')
-    netloc = urlparse.urlparse(redirect_to)[1]
+    netloc = urlparse(redirect_to)[1]
     if not redirect_to:
         redirect_to = settings.LOGIN_REDIRECT_URL
     elif netloc and netloc != request.get_host():

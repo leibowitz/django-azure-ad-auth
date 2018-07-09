@@ -5,7 +5,12 @@ from django.conf import settings
 import jwt
 from lxml import etree
 import requests
-from urllib import urlencode
+try:
+    # Python 3
+    from urllib.parse import urlencode
+except ImportError:
+    # Python 2
+    from urllib import urlencode
 
 
 AUTHORITY = getattr(settings, 'AAD_AUTHORITY', 'https://login.microsoftonline.com')

@@ -101,4 +101,4 @@ class AzureActiveDirectoryBackend(object):
 
     @staticmethod
     def username_generator(email):
-        return urlsafe_b64encode(sha1(email).digest()).rstrip(b'=')
+        return urlsafe_b64encode(sha1(email.encode('utf-8')).digest()).rstrip(b'=')
