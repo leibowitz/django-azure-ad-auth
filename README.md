@@ -53,3 +53,21 @@ Defines how the response parameters are returned. Valid choices are `fragment` o
 
 **default:** `True`
 Allow creation of new users after successful authentication.
+
+### AAD_USER_MAPPING
+
+**default:** `{}`
+
+Map fields from the token to the user, to be used on creation.
+
+### AAD_USER_STATIC_MAPPING
+
+**default:** `{}`
+
+Map static values to user fields on creation.
+
+### AAD_GROUP_MAPPING
+
+**default:** `{}`
+
+Map group ids to group names for user permissions.
