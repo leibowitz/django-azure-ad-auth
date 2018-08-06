@@ -1,11 +1,17 @@
 from .backends import AzureActiveDirectoryBackend
 from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME, login
-from django.core.urlresolvers import reverse
+from django import VERSION
 from django.http import HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
 import uuid
+
+if VERSION[0] < 2:
+    from django.core.urlresolvers import reverse
+else:
+    from django.urls import reverse
+
 try:
     # Python 3
     from urllib.parse import urlparse
