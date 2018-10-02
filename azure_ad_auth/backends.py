@@ -47,6 +47,8 @@ class AzureActiveDirectoryBackend(object):
         if email is None:
             return None
 
+        email = email.lower()
+
         new_user = {'email': email}
 
         users = self.User.objects.filter(email=email)
