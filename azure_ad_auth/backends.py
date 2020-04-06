@@ -52,7 +52,7 @@ class AzureActiveDirectoryBackend(object):
         new_user = {'email': email}
 
         users = self.User.objects.filter(email=email)
-        if len(users) == 0:
+        if len(users) == 0 and self.USER_CREATION:
             user = self.create_user(new_user, payload)
 
             # Try mapping group claims to matching groups
@@ -64,6 +64,7 @@ class AzureActiveDirectoryBackend(object):
             self.add_user_to_group(user, payload)
         else:
             return None
+
         user.backend = '{}.{}'.format(self.__class__.__module__, self.__class__.__name__)
         return user
 
@@ -87,20 +88,21 @@ class AzureActiveDirectoryBackend(object):
                     pass
 
     def create_user(self, user_kwargs, payload):
-        if self.USER_CREATION:
-            username_field = getattr(self.User, 'USERNAME_FIELD', 'username')
-            email = user_kwargs.get('email', None)
-            if username_field and username_field != 'email' and email:
-                user_kwargs[username_field] = self.username_generator(email)
-            for user_field, token_field in self.USER_MAPPING.items():
-                if token_field not in payload:
-                    continue
-                user_kwargs[user_field] = payload[token_field]
-            for user_field, val in self.USER_STATIC_MAPPING.items():
-                user_kwargs[user_field] = val
-            return self.User.objects.create_user(**user_kwargs)
-        else:
-            return None
+        username_field = getattr(self.User, 'USERNAME_FIELD', 'username')
+        email = user_kwargs.get('email', None)
+
+        if username_field and username_field != 'email' and email:
+            user_kwargs[username_field] = self.username_generator(email)
+
+        for user_field, token_field in self.USER_MAPPING.items():
+            if token_field not in payload:
+                continue
+            user_kwargs[user_field] = payload[token_field]
+
+        for user_field, val in self.USER_STATIC_MAPPING.items():
+            user_kwargs[user_field] = val
+
+        return self.User.objects.create_user(**user_kwargs)
 
     @staticmethod
     def username_generator(email):
