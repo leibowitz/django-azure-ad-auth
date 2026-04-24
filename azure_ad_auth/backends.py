@@ -50,14 +50,14 @@ class AzureActiveDirectoryBackend:
         **kwargs,
     ):
         if token is None:
-            logger.debug("authenticate: token is None")
+            logger.error("aad_authenticate: token is None")
             return None
 
         payload = get_token_payload(token=token, nonce=nonce)
         email = get_token_payload_email(payload)
 
         if email is None:
-            logger.debug("authenticate: email is None")
+            logger.error("aad_authenticate: email is None")
             return None
 
         email = email.lower()
@@ -67,18 +67,18 @@ class AzureActiveDirectoryBackend:
         users = self.User.objects.filter(email=email)
         if len(users) == 0 and self.USER_CREATION:
             user = self.create_user(new_user, payload)
-            logger.debug(f"authenticate: users is 0, creating {user}")
+            logger.info(f"aad_authenticate: No user, creating {user}")
 
             # Try mapping group claims to matching groups
             self.add_user_to_group(user, payload)
         elif len(users) == 1:
             user = users[0]
-            logger.debug(f"authenticate: users is {user}")
+            logger.debug(f"aad_authenticate: user is {user}")
 
             # Try mapping group claims to matching groups
             self.add_user_to_group(user, payload)
         else:
-            logger.debug("authenticate: users is not 0 or 1")
+            logger.error(f"aad_authenticate: More than 1 user matches email {email}")
             return None
 
         user.backend = f"{self.__class__.__module__}.{self.__class__.__name__}"
@@ -93,15 +93,26 @@ class AzureActiveDirectoryBackend:
 
     def add_user_to_group(self, user, payload):
         if user is not None and "groups" in payload:
+            logger.debug(f"aad_add_user_to_group: payload.groups={payload['groups']}")
             for groupid in payload["groups"]:
+                logger.debug(f"aad_add_user_to_group: groupid: {groupid}")
                 if groupid not in self.GROUP_MAPPING:
+                    logger.error("aad_add_user_to_group: groupid not in GROUP_MAPPING")
                     continue
                 group_name = self.GROUP_MAPPING[groupid]
+                logger.debug(f"aad_add_user_to_group: group_name={group_name}")
                 try:
                     group = Group.objects.get(name=group_name)
                     user.groups.add(group)
+                    logger.info(
+                        f"aad_add_user_to_group: {user} added to group: {group_name}"
+                    )
                 except ObjectDoesNotExist:
-                    pass
+                    logger.info(
+                        f"aad_add_user_to_group: group does not exist: {group_name}"
+                    )
+        else:
+            logger.info(f"aad_add_user_to_group: No groups for user: {user}")
 
     def create_user(self, user_kwargs, payload):
         username_field = getattr(self.User, "USERNAME_FIELD", "username")

@@ -109,8 +109,7 @@ def get_token_payload(token=None, audience=CLIENT_ID, nonce=None):
 
             return payload
         except (jwt.InvalidTokenError, IndexError) as e:
-            logger.error(f"InvalidTokenError: {e!s}")
-            pass
+            logger.error(f"aad_get_token_payload: InvalidTokenError: {e!s}")
 
     return None
 

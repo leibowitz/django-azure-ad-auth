@@ -1,43 +1,39 @@
 [project]
 name = "django-azure-ad-auth-redux"
-version = "1.5.26"
-description="Authenticate users using Azure Active Directory."
-authors = [
-    { name="Scott Sharkey", email="scott.sharkey@rsginc.com" },
-]
+version = "1.5.27"
+description = "Authenticate users using Azure Active Directory."
+authors = [{ name = "Scott Sharkey", email = "scott.sharkey@rsginc.com" }]
 license = "MIT"
 #packages = [{include = "azure_ad_auth"}]
 readme = "README.md"
 repository = "https://github.com/lanshark/django-azure-ad-auth-redux"
 requires-python = ">=3.12,<4"
 homepage = "https://github.com/lanshark/django-azure-ad-auth-redux"
-keywords = [ "Python, Active Directory, Django", ]
+keywords = ["Python, Active Directory, Django"]
 classifiers = [
-        "Development Status :: 5 - Production/Stable",
-        "Environment :: Web Environment",
-        "Framework :: Django",
-        "Framework :: Django :: 3.2",
-        "Intended Audience :: Developers",
-        "License :: OSI Approved :: BSD License",
-        "Natural Language :: English",
-        "Operating System :: OS Independent",
-        "Operating System :: POSIX",
-        "Operating System :: Unix",
-        "Programming Language :: Python",
-        "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.11",
-        "Programming Language :: Python :: 3.12",
-        "Topic :: Software Development",
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Web Environment",
+  "Framework :: Django",
+  "Framework :: Django :: 3.2",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: BSD License",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+  "Operating System :: POSIX",
+  "Operating System :: Unix",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Software Development",
 ]
-include = [
-    "LICENSE",
-]
+include = ["LICENSE"]
 
 dependencies = [
-    "cryptography>=44.0.2",
-    "lxml>=5.0.1",
-    "pyjwt>=2.10.1",
-    "requests>=2.32.3",
+  "cryptography>=47.0.0",
+  "lxml>=6.1.0",
+  "pyjwt>=2.12.1",
+  "requests>=2.33.1",
 ]
 
 [build-system]
@@ -45,14 +41,12 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [dependency-groups]
-lint = [
-    "pre-commit>=3.7.1",
-]
+lint = ["pre-commit>=3.7.1"]
 dev = [
-    "icecream>=2.1.4",
-    "mock>=5.2.0",
-    "pylint>=3.3.5",
-    "pylint-django>=2.6.1",
+  "icecream>=2.1.4",
+  "mock>=5.2.0",
+  "pylint>=3.3.5",
+  "pylint-django>=2.6.1",
 ]
 
 [tool.black]
@@ -78,9 +72,7 @@ lines_after_imports = 2
 line_length = 88
 multi_line_output = 3
 use_parenthesis = true
-known-first-party = [
-    "azure_ad_auth",
-]
+known-first-party = ["azure_ad_auth"]
 
 [tool.mypy]
 python_version = "3.12"
@@ -89,13 +81,13 @@ plugins = "mypy_django_plugin.main"
 [tool.ruff]
 show-fixes = true
 exclude = [
-    ".tox",
-    "build",
-    ".eggs",
-    ".git",
-    ".mypy_cache",
-    ".ruff_cache",
-    "__pypackages__",
+  ".tox",
+  "build",
+  ".eggs",
+  ".git",
+  ".mypy_cache",
+  ".ruff_cache",
+  "__pypackages__",
 ]
 fix = true
 line-length = 88
@@ -104,85 +96,85 @@ target-version = "py312"
 [tool.ruff.lint]
 task-tags = ["NOTE", "TODO", "FIXME"]
 select = [
-    "A",
-    "ARG",
-    "B",
-    "C4",
-    "C90",
-    "COM",
-    "DTZ",
-    "D",
-    "E",
-    "EM",
-    "F",
-    "G",
-    # "I",  # TODO: use `isort` in `ruff` once it contains all desired configurations
-    "ICN",
-    "INP",
-    "ISC",
-    "N",
-    "PD",
-    "PIE",
-    "PGH",
-    "PL",
-    "PLC",
-    "PLE",
-    "PLR",
-    "PLW",
-    "PT",
-    "Q",
-    "RET",
-    "RSE",
-    "RUF",
-    "S",
-    "SLF",
-    "SIM",
-    "TCH",
-    "T10",
-    "T20",
-    "TID",
-    "UP",
-    "W",
+  "A",
+  "ARG",
+  "B",
+  "C4",
+  "C90",
+  "COM",
+  "DTZ",
+  "D",
+  "E",
+  "EM",
+  "F",
+  "G",
+  # "I",  # TODO: use `isort` in `ruff` once it contains all desired configurations
+  "ICN",
+  "INP",
+  "ISC",
+  "N",
+  "PD",
+  "PIE",
+  "PGH",
+  "PL",
+  "PLC",
+  "PLE",
+  "PLR",
+  "PLW",
+  "PT",
+  "Q",
+  "RET",
+  "RSE",
+  "RUF",
+  "S",
+  "SLF",
+  "SIM",
+  "TCH",
+  "T10",
+  "T20",
+  "TID",
+  "UP",
+  "W",
 ]
 ignore = [
-    "ANN",      # Temporary - til we get standard for types
-    "BLE",      # Temporary - need to be specific on Exceptions...
-    "D100",     # Missing docstring in public module
-    "D101",     # Missing docstring in public class
-    "D102",     # Missing docstring in public method
-    "D103",     # Missing docstring in public function
-    "D104",     # Missing docstring in public package
-    "D105",     # Missing docstring in magix method
-    "D106",     # Missing docstring in public nested class
-    "D107",     # Missing docstring in `__init__.py`
-    "D200",     # One-line docstring should fit on one line
-    "D205",     # 1 blank line required between summary line and description
-    "D211",     # no-blank-line-before-class docstring
-    "D212",     # multi-line-summary-first-line
-    "D415",     # First line should end with a period, question mark, or exclamation point
-    "ERA",      # DON'T eradicate commented code, for now...
-    "G004",     # logging-f-string -- allow (encourage) f-strings in logs
-    "N999",
-    "PD010",
-    "PD011",
-    "PLR0913",  # Too many arguments to function call
-    "PD010",
-    "PD011",
-    "PTH",      # TODO: temporary - disable things that require code changes...
-    "RET504",   # Unecessary variable assignment before `return` statement - broken
-    "RET505",   # Unnecessary else after `return`
-    "RET506",   # Unnecessary else after `raise` statement
-    "RET507",   # Unnecessary `elif` after `continue` statement
-    "RUF012",   # Mutable class attributes should be annotated with 'typing.ClassVar'
-    "S311",     # TODO: temporary - Standard pseudo-random generators are not suitable for cryptographic purposes
-    "S608",     # TODO: temporary - possible SQL injection vector through string-based query construction
-    "SLF001",   # Private member accessed
-    "T201",     # `print` found -- TODO: temporary - should replace with log statements
-    "T203",     # `p-print` found -- TODO: temporary - Discuss with team
-    "TCH001",   # Move application import into a type-checking block
-    "TCH002",   # Move third-party import into a type-checking block
-    "TCH003",   # Move standard library import into a type-checking block
-    "TRY",      # TODO: temporary - try/catch block linter
+  "ANN",     # Temporary - til we get standard for types
+  "BLE",     # Temporary - need to be specific on Exceptions...
+  "D100",    # Missing docstring in public module
+  "D101",    # Missing docstring in public class
+  "D102",    # Missing docstring in public method
+  "D103",    # Missing docstring in public function
+  "D104",    # Missing docstring in public package
+  "D105",    # Missing docstring in magix method
+  "D106",    # Missing docstring in public nested class
+  "D107",    # Missing docstring in `__init__.py`
+  "D200",    # One-line docstring should fit on one line
+  "D205",    # 1 blank line required between summary line and description
+  "D211",    # no-blank-line-before-class docstring
+  "D212",    # multi-line-summary-first-line
+  "D415",    # First line should end with a period, question mark, or exclamation point
+  "ERA",     # DON'T eradicate commented code, for now...
+  "G004",    # logging-f-string -- allow (encourage) f-strings in logs
+  "N999",
+  "PD010",
+  "PD011",
+  "PLR0913", # Too many arguments to function call
+  "PD010",
+  "PD011",
+  "PTH",     # TODO: temporary - disable things that require code changes...
+  "RET504",  # Unecessary variable assignment before `return` statement - broken
+  "RET505",  # Unnecessary else after `return`
+  "RET506",  # Unnecessary else after `raise` statement
+  "RET507",  # Unnecessary `elif` after `continue` statement
+  "RUF012",  # Mutable class attributes should be annotated with 'typing.ClassVar'
+  "S311",    # TODO: temporary - Standard pseudo-random generators are not suitable for cryptographic purposes
+  "S608",    # TODO: temporary - possible SQL injection vector through string-based query construction
+  "SLF001",  # Private member accessed
+  "T201",    # `print` found -- TODO: temporary - should replace with log statements
+  "T203",    # `p-print` found -- TODO: temporary - Discuss with team
+  "TCH001",  # Move application import into a type-checking block
+  "TCH002",  # Move third-party import into a type-checking block
+  "TCH003",  # Move standard library import into a type-checking block
+  "TRY",     # TODO: temporary - try/catch block linter
 ]
 
 [tool.ruff.flake8-annotations]
@@ -194,22 +186,17 @@ ignore-variadic-names = true
 # NOTE: These should be used SPARINGLY - use # noqa: F401 on the affected line instead.
 # Most common will be E501 - line too long, but break it if you can to < 88 chars
 [tool.ruff.per-file-ignores]
-"conf/settings.py" = ["ERA001"]  # Found commented-out code
+"conf/settings.py" = ["ERA001"] # Found commented-out code
 
 [tool.ruff.lint.isort]
 force-single-line = false
-known-first-party = [
-    "azure_ad_auth",
-]
+known-first-party = ["azure_ad_auth"]
 lines-after-imports = 2
 
 [tool.ruff.pydocstyle]
 convention = "google"
 
 [tool.uv]
-default-groups = [
-    "dev",
-    "lint",
-]
+default-groups = ["dev", "lint"]
 
 [tool.uv.sources]
