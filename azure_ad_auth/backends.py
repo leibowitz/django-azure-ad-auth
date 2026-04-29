@@ -105,11 +105,11 @@ class AzureActiveDirectoryBackend:
                     group = Group.objects.get(name=group_name)
                     user.groups.add(group)
                     logger.info(
-                        f"aad_add_user_to_group: {user} added to group: {group_name}"
+                        f"aad_add_user_to_group: {user} added to group: {group_name}",
                     )
                 except ObjectDoesNotExist:
                     logger.info(
-                        f"aad_add_user_to_group: group does not exist: {group_name}"
+                        f"aad_add_user_to_group: group does not exist: {group_name}",
                     )
         else:
             logger.info(f"aad_add_user_to_group: No groups for user: {user}")
