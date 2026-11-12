@@ -1,1 +1,5 @@
 .gitconfig
+.venv/
+__pycache__/
+*.py[cod]
+tests/db.sqlite3

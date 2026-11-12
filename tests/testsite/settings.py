@@ -37,15 +37,14 @@ INSTALLED_APPS = (
     "azure_ad_auth",
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
+    "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.auth.middleware.SessionAuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "django.middleware.security.SecurityMiddleware",
 )
 
 ROOT_URLCONF = "testsite.urls"
@@ -81,8 +80,6 @@ TIME_ZONE = "UTC"
 
 USE_I18N = True
 
-USE_L10N = True
-
 USE_TZ = True
 
 STATIC_URL = "/static/"
@@ -95,5 +92,5 @@ AUTHENTICATION_BACKENDS = (
 LOGIN_REDIRECT_URL = "/login_successful/"
 
 # SAS Get these from env vars using python-decouple...
-AAD_TENANT_ID = "d472b4f4-95c5-4eb3-8a9a-3615c837eada"
-AAD_CLIENT_ID = "75e38b53-8174-4dc6-a8f6-bb7a913f1565"
+AAD_TENANT_ID = "test-tenant"
+AAD_CLIENT_ID = "test-client"

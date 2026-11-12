@@ -5,7 +5,37 @@ Django Azure AD Auth Redux
 
   This fork has the following additional features:
   - Add the specification of the decode algorithm per newer PyJWT requirements.
-  - Supports django > 3.2.18
+  - Supports Django 5.2 LTS, 6.0, and 6.1 on Python 3.12–3.15, as listed below.
+
+Compatibility
+-------------
+
+| Django | Python |
+| --- | --- |
+| 5.2 LTS (5.2.8+ for Python 3.14) | 3.12, 3.13, 3.14 |
+| 6.0 | 3.12, 3.13, 3.14 |
+| 6.1.3+ | 3.12, 3.13, 3.14, 3.15 |
+
+Use the latest patch release in each series. Python 3.15 requires Django 6.1.3
+or newer; the package enforces this requirement during installation. Python 3.11
+and Django versions older than 5.2 are not supported.
+
+Development
+-----------
+
+Install the project and run its checks and tests:
+
+```sh
+uv sync --locked
+uv run --locked python -Wd tests/manage.py check
+uv run --locked python -Wd tests/manage.py test tests
+uv build
+```
+
+CI tests all combinations in the table above and checks built distributions.
+Authentication tests use local signing keys and mocked HTTP responses; no Azure
+account or credentials are required. The demonstration project uses placeholder
+Azure identifiers, which must be replaced to try an actual Azure login.
 
 Installation
 ------------

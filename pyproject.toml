@@ -1,35 +1,37 @@
 [project]
 name = "django-azure-ad-auth-redux"
-version = "1.5.27"
+version = "1.5.28"
 description = "Authenticate users using Azure Active Directory."
 authors = [{ name = "Scott Sharkey", email = "scott.sharkey@rsginc.com" }]
-license = "MIT"
-#packages = [{include = "azure_ad_auth"}]
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
 readme = "README.md"
-repository = "https://github.com/lanshark/django-azure-ad-auth-redux"
 requires-python = ">=3.12,<4"
-homepage = "https://github.com/lanshark/django-azure-ad-auth-redux"
 keywords = ["Python, Active Directory, Django"]
 classifiers = [
   "Development Status :: 5 - Production/Stable",
   "Environment :: Web Environment",
   "Framework :: Django",
-  "Framework :: Django :: 3.2",
+  "Framework :: Django :: 5.2",
+  "Framework :: Django :: 6.0",
+  "Framework :: Django :: 6.1",
   "Intended Audience :: Developers",
-  "License :: OSI Approved :: BSD License",
   "Natural Language :: English",
   "Operating System :: OS Independent",
   "Operating System :: POSIX",
   "Operating System :: Unix",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Programming Language :: Python :: 3.15",
   "Topic :: Software Development",
 ]
-include = ["LICENSE"]
 
 dependencies = [
+  "Django>=5.2,<6.2; python_version < '3.15'",
+  "Django>=6.1.3,<6.2; python_version >= '3.15'",
   "cryptography>=47.0.0",
   "lxml>=6.1.0",
   "pyjwt>=2.12.1",
@@ -37,8 +39,12 @@ dependencies = [
 ]
 
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling>=1.27"]
 build-backend = "hatchling.build"
+
+[project.urls]
+Homepage = "https://github.com/lanshark/django-azure-ad-auth-redux"
+Repository = "https://github.com/lanshark/django-azure-ad-auth-redux"
 
 [dependency-groups]
 lint = ["pre-commit>=3.7.1"]
@@ -58,10 +64,13 @@ force_exclude = '''
 django_settings_module = "conf.settings"
 
 [tool.hatch.build.targets.sdist]
-include = ["azure_ad_auth"]
+include = ["azure_ad_auth", "tests", "README.md", "LICENSE", "pyproject.toml"]
+# Keep artifacts readable by publishing tools that don't yet accept metadata 2.5.
+core-metadata-version = "2.4"
 
 [tool.hatch.build.targets.wheel]
 include = ["azure_ad_auth"]
+core-metadata-version = "2.4"
 
 [tool.isort]
 profile = "black"

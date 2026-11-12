@@ -6,7 +6,11 @@ on:
       - 'v*'
 
 jobs:
+  tests:
+    uses: ./.github/workflows/tests.yml
+
   publish:
+    needs: tests
     name: Publish to PyPI
     runs-on: ubuntu-latest
     environment: pypi
@@ -19,10 +23,11 @@ jobs:
       - name: Install uv and setup Python
         uses: astral-sh/setup-uv@v6.3.1
         with:
+            python-version: '3.12'
             enable-cache: true
 
       - name: Install the project
-        run: uv sync --all-groups --all-extras
+        run: uv sync --locked --all-groups --all-extras
 
       - name: Build Wheel
         run: uv build
